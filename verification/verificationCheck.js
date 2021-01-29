@@ -17,18 +17,23 @@ async function check(ctx, next) {
         return false;
     }
     // 解码
-    let payload = await jwt.verify(token,'WFT_DSA');
-    let { time, timeout } = payload;
-    let data = new Date().getTime();
-    
-    if (data - time <= timeout) {
-        // 未过期
-        ctx.userStatus ={id:payload['id'],user:payload['user']}
-        await next();
-    } else {
-        //过期
-        ctx.userStatus ={};
-        ctx.body=stateInfo.errorInfo(50015,'登陆过期')
+    try{  
+      let payload = await jwt.verify(token,'WFT_DSA');
+      let { time, timeout } = payload;
+      let data = new Date().getTime();
+      
+      if (data - time <= timeout) {
+          // 未过期
+          ctx.userStatus ={id:payload['id'],user:payload['user']}
+          await next();
+      } else {
+          //过期
+          ctx.userStatus ={};
+          ctx.body=stateInfo.errorInfo(50015,'登陆过期')
+      }
+    }catch(error){
+      ctx.body=stateInfo.errorInfo(50015,'登陆过期')
+
     }
   }
 }

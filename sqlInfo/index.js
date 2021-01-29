@@ -31,12 +31,12 @@ let allServices = {
         })
 
     },
-   findUserData: (name) =>{
-        let _sql = `select * from user_info where username="${name}";`
+   findUserData: (email) =>{
+        let _sql = `select * from user_info where emailinfo="${email}";`
         return allServices.query(_sql)
     },
     addUserData: (obj) => {
-         let _sql = `insert into user_info(username,password) values("${obj.username}","${obj.password}");`
+         let _sql = `insert into user_info(username,password,emailinfo) values("${obj.username}","${obj.password}","${obj.email}");`
          return allServices.query(_sql, obj)
     },
     delData: (obj,status) => {
@@ -55,6 +55,11 @@ let allServices = {
     updataUserInfo: (username,obj,status) => {
       let _sql =`UPDATE user_info SET password = ${obj.password}  WHERE  username = '${username}';`
       return allServices.query(_sql, obj)
+    },
+    getContentInfos: (obj) => {
+        // let _sql = `select * from diary_description limit ${(obj.page-1)*obj.limit}, ${obj.limit};`
+        let _sql =`SELECT * FROM diary_description ORDER BY id ASC limit ${(obj.page-1)*obj.limit} ,${obj.limit}`;
+        return allServices.query(_sql, obj)
     },
 }
 

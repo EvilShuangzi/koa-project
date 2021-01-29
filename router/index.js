@@ -13,8 +13,9 @@ routerInfo.post('/getuser',checkAuth,async (ctx)=>{
         ctx.body= stateInfo.errorInfo(50014,'token过期')
     }
 })
-routerInfo.get('/setuser',checkAuth,userFun.siginUserInfo)
+routerInfo.get('/setuser',userFun.siginUserInfo)
 // routerInfo.get('/deldata',userFun.delUserInfo)
 routerInfo.post('/updatainfo',checkAuth,userFun.updataUserInfo)
+routerInfo.post('/getContent',checkAuth,userFun.getContentInfo)
 
 module.exports = routerInfo
